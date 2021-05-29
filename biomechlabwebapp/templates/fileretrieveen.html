@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Files</title>
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/retrieve_data.css' %}">
+
+</head>
+<body>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> 
+  <script src="{% static 'js/retrieve_datajs.js' %}"></script>  
+
+  <center>
+    <div id="top-bar" >
+      
+      <div id="top-bar-inner">
+        
+       <a href="https://iyte.edu.tr" id="top-bar-callout" title="İYTE" target="_blank">IZTECH</a>
+       
+       <div class="menu-top-menu-container">
+        <ul id="menu-top-menu" class="top-menu">
+          <a href="{% url 'retrieveDataEnglish' %}">English /</a>
+          <a href="{% url 'retrieveData' %}">Türkçe</a>
+        </ul>
+      </div> 
+      
+    </div><!-- /top-bar-inner -->
+    
+  </div><!-- /top-bar -->
+  <br><br>
+  <div class="wrap" >
+    <header class="header">
+      <div class="container" id="headerimage">
+
+        <img src="{% static '/images/headertr.png' %}" alt="My image" >
+      </a>
+      <div class="hidden-xs">
+        <a class="home-link" href="https://orthoload.com/" title="OrthoLoad" rel="home">   
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 45px;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="https://biomechlab.iyte.edu.tr/" style="height: 45px;color: white;">Home Page </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="color: white;" >
+            Team
+
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #2b2b2b;">
+            <a class="nav-link" href="https://biomechlab.iyte.edu.tr/kisiler/" >Lab Members</a>
+            <a class="nav-link" href="https://biomechlab.iyte.edu.tr/is-birlikleri/" >Colloborations</a> 
+          </div>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'retrieveDataEnglish' %}" style="color: white;">Dataset</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="https://biomechlab.iyte.edu.tr/ulasim/" style="color: white;">Transportation</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="https://biomechlab.iyte.edu.tr/#link-target" style="color: white;">Participate in Our Research</a>
+        </li>
+
+      </ul>
+
+      <li class="nav-item">
+      <a class="nav-link" href="#" style="float: right;color: white;">
+        {% block content %}
+        {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+      
+        <a class="nav-link" href="{% url 'logout' %}" style="height: 45px; float: right; color: white;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a class="nav-link" href="{% url 'uploadFile' %}" style="height: 45px;  float: right; color: white;"><i class="fas fa-upload"></i> Upload File</a>
+         <a class="nav-link" href="{% url 'blandAltman' %}" style="height: 45px;  float: right; color: white;">Bland-Altman</a>
+        {% else %}
+        <p style="margin-top: 6px;">You are not logged in</p>
+        <a class="nav-link" href="{% url 'login' %}" style="height: 45px; margin-top: 9px; float: right; color: white;"><i class="fas fa-sign-in-alt"></i> Log in</a>
+        {% endif %}
+        {% endblock %}
+
+      </a>
+    </li>
+    </div>
+  </nav>
+  
+
+  <div class="container-fluid" style="height: 750px;">
+    <div class="row">
+      <div id="conten_database">
+        <div class="col-lg-7 col-md-4 col-sm-12 col-xs-12">
+          <div class="content">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="form-group">
+                  <label >Activity:</label>
+                  <select class="form-control" id="activity">
+                    <option value="" selected disabled>choose</option>
+                    <option value="gait">Gait</option>
+                    <option value="squat">Squat</option>
+                    <option value="stair">Stair</option>
+                  </select>
+                </div>
+              <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select class="form-control" id="gender">
+                  <option value="" selected disabled>choose</option>
+                  <option value="_F_">Female</option>
+                  <option value="_M_">Male</option>
+                  <option value="_T_">Trans</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="age">Age:</label>
+                <select class="form-control" id="age">
+                  <option value="" selected disabled>choose</option>
+                  <option value="18-25">18-25</option>
+                  <option value="26-35">26-35</option>
+                  <option value="36-45">36-45</option>
+                  <option value="46-55">46-55</option>
+                  <option value="56-65">56-65</option>
+                  <option value="66-75">66-75</option>
+                  <option value="76-85">76-85</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="bmi">BMI(Body Mass Index):</label>
+                <select class="form-control" id="bmi">
+                  <option value="" selected disabled>choose</option>
+                  <option value="<18"><18</option>
+                  <option value="18-24.9">18.5-24.9</option>
+                  <option value="25-29.9">25-29.9</option>
+                  <option value="30-34.9">30-34.9</option>
+                  <option value="35-39.9">35-39.9</option>
+                  <option value=">40">>40</option>
+                </select>
+                <br>
+                <input type="button" onclick="changePage(1);"  value="Ara" />
+
+              </div>
+
+              
+            </div>
+            
+          </div>
+        </div>
+      </div><!-- /.panel-body -->
+    </div>
+    <div class="col-lg-5 col-md-8 col-sm-12 col-12">
+      <div id="panel1" class="panel panel-default">
+        <div class="panel-heading"> Files:</div>
+        <div class="panel-body">
+          <table class="table table-hover" id="table1">
+            <thead>
+              <tr>
+               
+               <th></th>
+             </tr>
+           </thead>
+           {% for obj in data %}  
+           <tbody style="display:none">
+            <td disabled="true"><a href="{{obj.attachment.url}}" download="{{obj.attachment}}"> {{obj.attachment}}</a></td>
+          </tbody>
+          <tbody>
+            <div id="myoutput">
+              
+            </div>
+            <span class="output" style="display: none"> </span>                   
+          </tbody>
+          <div id="listingTable"></div>
+
+
+
+          <span class="output" style="display: none"> </span>  
+          
+        </tbody> 
+        {% endfor %} 
+        <a href="javascript:prevPage()" id="btn_prev" >Prev |</a>
+        <a href="javascript:nextPage()" id="btn_next" > Next</a>
+
+        <br>
+        <span id="page"></span> 
+      </table>
+
+    </div>
+  </div>
+</div>
+  <div class="col-lg-2 col-md-8 col-sm-12 col-12">
+    <div id="panel1" class="panel panel-default">
+      <div class="panel-heading"> Information:</div>
+      <div class="panel-body">
+        <p style="font-size: 14px;">In this page, you can view all the files in our database by pressing the <b>"Search"</b> button without selecting any options, and at the same time you can download only the files you are interested in by filtering on the basis of Activity, Gender, Age, and Body Mass Index (BMI).</p>
+          <h5 style="font-size: 14px;"> <b> F, M, T --> Gender(Female, Male, Trans)</b> </h5>
+          <h5 style="font-size: 14px;"> <b> A --> Age </b></h5>
+         <h5 style="font-size: 14px;">  <b>B --> Body Mass Index </b></h5>
+          <h5 style="font-size: 14px;">  <b>Squat, Gait, Stair, Nmz--> Activity </b></h5>
+           <h5 style="font-size: 14px;"> <b> Q, S --> System (Qualisys, Smartsuit) </b></h5>
+   </div>
+ </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+  $(".dropbtn").click(function() {
+    $("#myDropdown").toggleClass("show");
+  });
+</script>
+</body>
+</html>
